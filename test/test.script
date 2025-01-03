@@ -1,0 +1,33 @@
+local time = 0
+
+local function is_equal(...)
+	local values = { ... }
+	local a = values[1]
+	for _, b in ipairs(values) do
+		if math.abs(a - b) > 0.0000000001 then
+			return false
+		end
+	end
+	return true
+end
+
+function update(self, dt)
+	time = time + dt
+
+	local url = msg.url()
+
+	goraw.set_position(url, time, time * 2, time * 3)
+	goraw.set_scale(url, time, time * 2, time * 3)
+
+	local p = go.get_position(url)
+	local p1_x, p1_y, p1_z = goraw.get_position(url)
+	local p2_x, p2_y, p2_z = goraw.get_position_x(url), goraw.get_position_y(url), goraw.get_position_z(url)
+
+	local s = go.get_scale(url)
+	local s1_x, s1_y, s1_z = goraw.get_scale(url)
+	local s2_x, s2_y, s2_z = goraw.get_scale_x(url), goraw.get_scale_y(url), goraw.get_scale_z(url)
+
+	assert(is_equal(p.x, p1_x, p2_x, s.x, s1_x, s2_x))
+	assert(is_equal(p.y, p1_y, p2_y, s.y, s1_y, s2_y))
+	assert(is_equal(p.z, p1_z, p2_z, s.z, s1_z, s2_z))
+end
