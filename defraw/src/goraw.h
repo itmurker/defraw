@@ -5,6 +5,8 @@
 
 int GO_GetPosition(lua_State *L);
 int GO_SetPosition(lua_State *L);
+int GO_GetPositionT(lua_State *L);
+int GO_SetPositionT(lua_State *L);
 int GO_GetPositionX(lua_State *L);
 int GO_SetPositionX(lua_State *L);
 int GO_GetPositionY(lua_State *L);
@@ -14,6 +16,8 @@ int GO_SetPositionZ(lua_State *L);
 
 int GO_GetScale(lua_State *L);
 int GO_SetScale(lua_State *L);
+int GO_GetScaleT(lua_State *L);
+int GO_SetScaleT(lua_State *L);
 int GO_GetScaleX(lua_State *L);
 int GO_SetScaleX(lua_State *L);
 int GO_GetScaleY(lua_State *L);

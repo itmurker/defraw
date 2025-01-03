@@ -1,10 +1,9 @@
 local time = 0
 
-local function is_equal(...)
-	local values = { ... }
+local function is_equal(values)
 	local a = values[1]
 	for _, b in ipairs(values) do
-		if math.abs(a - b) > 0.0000000001 then
+		if math.abs(a - b) > 0.00001 then
 			return false
 		end
 	end
@@ -16,18 +15,28 @@ function update(self, dt)
 
 	local url = msg.url()
 
-	goraw.set_position(url, time, time * 2, time * 3)
-	goraw.set_scale(url, time, time * 2, time * 3)
+	local vec_in = { x = time, y = time * 2, z = time * 3 }
 
-	local p = go.get_position(url)
+	goraw.set_position_t(url, vec_in)
+	goraw.set_scale_t(url, vec_in)
+
+	local p0 = go.get_position(url)
 	local p1_x, p1_y, p1_z = goraw.get_position(url)
 	local p2_x, p2_y, p2_z = goraw.get_position_x(url), goraw.get_position_y(url), goraw.get_position_z(url)
+	local p3_out = { x = 0, y = 0, z = 0 }
+	goraw.get_position_t(url, p3_out)
 
-	local s = go.get_scale(url)
+	local s0 = go.get_scale(url)
 	local s1_x, s1_y, s1_z = goraw.get_scale(url)
 	local s2_x, s2_y, s2_z = goraw.get_scale_x(url), goraw.get_scale_y(url), goraw.get_scale_z(url)
+	local s3_out = { x = 0, y = 0, z = 0 }
+	goraw.get_scale_t(url, s3_out)
 
-	assert(is_equal(p.x, p1_x, p2_x, s.x, s1_x, s2_x))
-	assert(is_equal(p.y, p1_y, p2_y, s.y, s1_y, s2_y))
-	assert(is_equal(p.z, p1_z, p2_z, s.z, s1_z, s2_z))
+	local x_values = { vec_in.x, p0.x, p1_x, p2_x, p3_out.x, s0.x, s1_x, s2_x, s3_out.x }
+	local y_values = { vec_in.y, p0.y, p1_y, p2_y, p3_out.y, s0.y, s1_y, s2_y, s3_out.y }
+	local z_values = { vec_in.z, p0.z, p1_z, p2_z, p3_out.z, s0.z, s1_z, s2_z, s3_out.z }
+
+	assert(is_equal(x_values), "x: " .. table.concat(x_values, ", "))
+	assert(is_equal(y_values), "y: " .. table.concat(y_values, ", "))
+	assert(is_equal(z_values), "z: " .. table.concat(z_values, ", "))
 end

@@ -5,6 +5,8 @@
 static const luaL_reg go_functions[] = {
     {"get_position", GO_GetPosition},
     {"set_position", GO_SetPosition},
+    {"get_position_t", GO_GetPositionT},
+    {"set_position_t", GO_SetPositionT},
     {"get_position_x", GO_GetPositionX},
     {"set_position_x", GO_SetPositionX},
     {"get_position_y", GO_GetPositionY},
@@ -13,6 +15,8 @@ static const luaL_reg go_functions[] = {
     {"set_position_z", GO_SetPositionZ},
     {"get_scale", GO_GetScale},
     {"set_scale", GO_SetScale},
+    {"get_scale_t", GO_GetScaleT},
+    {"set_scale_t", GO_SetScaleT},
     {"get_scale_x", GO_GetScaleX},
     {"set_scale_x", GO_SetScaleX},
     {"get_scale_y", GO_GetScaleY},

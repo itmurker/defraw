@@ -5,6 +5,7 @@
     {                                                                               \
         dmGameObject::Instance *instance = dmScript::CheckGOInstance(L, 1);         \
         dmVMath::propertytype property = dmGameObject::Get##propertyname(instance); \
+                                                                                    \
         lua_pushnumber(L, property.getX());                                         \
         lua_pushnumber(L, property.getY());                                         \
         lua_pushnumber(L, property.getZ());                                         \
@@ -15,11 +16,53 @@
     int GO_Set##propertyname(lua_State *L)                                         \
     {                                                                              \
         dmGameObject::Instance *instance = dmScript::CheckGOInstance(L, 1);        \
+                                                                                   \
         lua_Number x = luaL_checknumber(L, 2);                                     \
         lua_Number y = luaL_checknumber(L, 3);                                     \
         lua_Number z = luaL_checknumber(L, 4);                                     \
+                                                                                   \
         dmGameObject::Set##propertyname(instance, dmVMath::propertytype(x, y, z)); \
         return 0;                                                                  \
+    }
+
+#define GO_GET_T(propertyname, propertytype)                                            \
+    int GO_Get##propertyname##T(lua_State *L)                                           \
+    {                                                                                   \
+        if (lua_istable(L, 2))                                                          \
+        {                                                                               \
+            dmGameObject::Instance *instance = dmScript::CheckGOInstance(L, 1);         \
+            dmVMath::propertytype property = dmGameObject::Get##propertyname(instance); \
+                                                                                        \
+            lua_pushnumber(L, property.getX());                                         \
+            lua_setfield(L, 2, "x");                                                    \
+            lua_pushnumber(L, property.getY());                                         \
+            lua_setfield(L, 2, "y");                                                    \
+            lua_pushnumber(L, property.getZ());                                         \
+            lua_setfield(L, 2, "z");                                                    \
+        }                                                                               \
+        return 0;                                                                       \
+    }
+
+#define GO_SET_T(propertyname, propertytype)                                           \
+    int GO_Set##propertyname##T(lua_State *L)                                          \
+    {                                                                                  \
+        if (lua_istable(L, 2))                                                         \
+        {                                                                              \
+            dmGameObject::Instance *instance = dmScript::CheckGOInstance(L, 1);        \
+                                                                                       \
+            lua_getfield(L, 2, "x");                                                   \
+            lua_Number x = luaL_checknumber(L, -1);                                    \
+            lua_getfield(L, 2, "y");                                                   \
+            lua_Number y = luaL_checknumber(L, -1);                                    \
+            lua_getfield(L, 2, "z");                                                   \
+            lua_Number z = luaL_checknumber(L, -1);                                    \
+                                                                                       \
+            lua_pop(L, 3);                                                             \
+                                                                                       \
+            dmGameObject::Set##propertyname(instance, dmVMath::propertytype(x, y, z)); \
+        }                                                                              \
+                                                                                       \
+        return 0;                                                                      \
     }
 
 #define GO_GET_N(propertyname, propertytype, n)                                     \
@@ -43,6 +86,8 @@
 
 GO_GET(Position, Point3)
 GO_SET(Position, Point3)
+GO_GET_T(Position, Point3)
+GO_SET_T(Position, Point3)
 GO_GET_N(Position, Point3, X)
 GO_SET_N(Position, Point3, X)
 GO_GET_N(Position, Point3, Y)
@@ -51,6 +96,8 @@ GO_GET_N(Position, Point3, Z)
 GO_SET_N(Position, Point3, Z)
 GO_GET(Scale, Vector3)
 GO_SET(Scale, Vector3)
+GO_GET_T(Scale, Vector3)
+GO_SET_T(Scale, Vector3)
 GO_GET_N(Scale, Vector3, X)
 GO_SET_N(Scale, Vector3, X)
 GO_GET_N(Scale, Vector3, Y)
@@ -60,5 +107,7 @@ GO_SET_N(Scale, Vector3, Z)
 
 #undef GO_GET
 #undef GO_SET
+#undef GO_GET_T
+#undef GO_SET_T
 #undef GO_GET_N
 #undef GO_SET_N
