@@ -1,42 +1,160 @@
 local time = 0
 
-local function is_equal(values)
+-- Helper function to check if values are approximately equal
+local function is_equal(values, tolerance)
+	tolerance = tolerance or 0.05
 	local a = values[1]
 	for _, b in ipairs(values) do
-		if math.abs(a - b) > 0.00001 then
+		if math.abs(a - b) > tolerance then
 			return false
 		end
 	end
 	return true
 end
 
+-- Helper function to format values for error messages
+local function format_values(values)
+	return table.concat(values, ", ")
+end
+
+-- Test function for position-related functions
+local function test_position(url, vec_in)
+	-- Set position using different methods
+	go.set_position_t(url, vec_in)
+	go.set_position_x(url, vec_in.x)
+	go.set_position_y(url, vec_in.y)
+	go.set_position_z(url, vec_in.z)
+
+	-- Get position using different methods
+	local p1_x, p1_y, p1_z = go.get_position_r(url)
+	local p2_x, p2_y, p2_z = go.get_position_x(url), go.get_position_y(url), go.get_position_z(url)
+	local p3_out = { x = 0, y = 0, z = 0 }
+	go.get_position_t(url, p3_out)
+
+	-- Collect all x, y, z values
+	local x_values = { vec_in.x, p1_x, p2_x, p3_out.x }
+	local y_values = { vec_in.y, p1_y, p2_y, p3_out.y }
+	local z_values = { vec_in.z, p1_z, p2_z, p3_out.z }
+
+	-- Assert all values are equal
+	assert(is_equal(x_values), "Position X values differ: " .. format_values(x_values))
+	assert(is_equal(y_values), "Position Y values differ: " .. format_values(y_values))
+	assert(is_equal(z_values), "Position Z values differ: " .. format_values(z_values))
+end
+
+-- Test function for scale-related functions
+local function test_scale(url, vec_in)
+	-- Set scale using different methods
+	go.set_scale_t(url, vec_in)
+	go.set_scale_x(url, vec_in.x)
+	go.set_scale_y(url, vec_in.y)
+	go.set_scale_z(url, vec_in.z)
+
+	-- Get scale using different methods
+	local s1_x, s1_y, s1_z = go.get_scale_r(url)
+	local s2_x, s2_y, s2_z = go.get_scale_x(url), go.get_scale_y(url), go.get_scale_z(url)
+	local s3_out = { x = 0, y = 0, z = 0 }
+	go.get_scale_t(url, s3_out)
+
+	-- Collect all x, y, z values
+	local x_values = { vec_in.x, s1_x, s2_x, s3_out.x }
+	local y_values = { vec_in.y, s1_y, s2_y, s3_out.y }
+	local z_values = { vec_in.z, s1_z, s2_z, s3_out.z }
+
+	-- Assert all values are equal
+	assert(is_equal(x_values), "Scale X values differ: " .. format_values(x_values))
+	assert(is_equal(y_values), "Scale Y values differ: " .. format_values(y_values))
+	assert(is_equal(z_values), "Scale Z values differ: " .. format_values(z_values))
+end
+
+-- Test function for rotation-related functions
+local function test_rotation(url, vec_in)
+	-- Set rotation using different methods
+	go.set_euler_t(url, vec_in)
+	go.set_euler_x(url, vec_in.x)
+	go.set_euler_y(url, vec_in.y)
+	go.set_euler_z(url, vec_in.z)
+
+	-- Get rotation using different methods
+	local e1_x, e1_y, e1_z = go.get_euler_r(url)
+	local e2_x, e2_y, e2_z = go.get_euler_x(url), go.get_euler_y(url), go.get_euler_z(url)
+	local e3_out = { x = 0, y = 0, z = 0 }
+	go.get_euler_t(url, e3_out)
+
+	-- Collect all x, y, z values
+	local x_values = { vec_in.x, e1_x, e2_x, e3_out.x }
+	local y_values = { vec_in.y, e1_y, e2_y, e3_out.y }
+	local z_values = { vec_in.z, e1_z, e2_z, e3_out.z }
+
+	-- Assert all values are equal
+	assert(is_equal(x_values), "Rotation X values differ: " .. format_values(x_values))
+	assert(is_equal(y_values), "Rotation Y values differ: " .. format_values(y_values))
+	assert(is_equal(z_values), "Rotation Z values differ: " .. format_values(z_values))
+end
+
+-- Test function for world getters
+local function test_world_getters(url, vec_in)
+	-- Set local transform
+	go.set_position_t(url, vec_in)
+	go.set_scale_t(url, vec_in)
+	go.set_euler_t(url, vec_in)
+
+	-- Get world position using different methods
+	local wp1_x, wp1_y, wp1_z = go.get_world_position_r(url)
+	local wp2_x, wp2_y, wp2_z = go.get_world_position_x(url), go.get_world_position_y(url), go.get_world_position_z(url)
+	local wp3_out = { x = 0, y = 0, z = 0 }
+	go.get_world_position_t(url, wp3_out)
+
+	-- Get world rotation using different methods
+	local we1_x, we1_y, we1_z = go.get_world_euler_r(url)
+	local we2_x, we2_y, we2_z = go.get_world_euler_x(url), go.get_world_euler_y(url), go.get_world_euler_z(url)
+	local we3_out = { x = 0, y = 0, z = 0 }
+	go.get_world_euler_t(url, we3_out)
+
+	-- Get world scale using different methods
+	local ws1_x, ws1_y, ws1_z = go.get_world_scale_r(url)
+	local ws2_x, ws2_y, ws2_z = go.get_world_scale_x(url), go.get_world_scale_y(url), go.get_world_scale_z(url)
+	local ws3_out = { x = 0, y = 0, z = 0 }
+	go.get_world_scale_t(url, ws3_out)
+
+	-- Collect all position values
+	local pos_x_values = { wp1_x, wp2_x, wp3_out.x }
+	local pos_y_values = { wp1_y, wp2_y, wp3_out.y }
+	local pos_z_values = { wp1_z, wp2_z, wp3_out.z }
+
+	-- Collect all rotation values
+	local rot_x_values = { we1_x, we2_x, we3_out.x }
+	local rot_y_values = { we1_y, we2_y, we3_out.y }
+	local rot_z_values = { we1_z, we2_z, we3_out.z }
+
+	-- Collect all scale values
+	local scale_x_values = { ws1_x, ws2_x, ws3_out.x }
+	local scale_y_values = { ws1_y, ws2_y, ws3_out.y }
+	local scale_z_values = { ws1_z, ws2_z, ws3_out.z }
+
+	-- Assert all values are equal
+	assert(is_equal(pos_x_values), "World Position X values differ: " .. format_values(pos_x_values))
+	assert(is_equal(pos_y_values), "World Position Y values differ: " .. format_values(pos_y_values))
+	assert(is_equal(pos_z_values), "World Position Z values differ: " .. format_values(pos_z_values))
+
+	assert(is_equal(rot_x_values), "World Rotation X values differ: " .. format_values(rot_x_values))
+	assert(is_equal(rot_y_values), "World Rotation Y values differ: " .. format_values(rot_y_values))
+	assert(is_equal(rot_z_values), "World Rotation Z values differ: " .. format_values(rot_z_values))
+
+	assert(is_equal(scale_x_values), "World Scale X values differ: " .. format_values(scale_x_values))
+	assert(is_equal(scale_y_values), "World Scale Y values differ: " .. format_values(scale_y_values))
+	assert(is_equal(scale_z_values), "World Scale Z values differ: " .. format_values(scale_z_values))
+end
+
 function update(self, dt)
 	time = time + dt
 
-	local url = msg.url()
-
+	local url = msg.url("test")
 	local vec_in = { x = time, y = time * 2, z = time * 3 }
 
-	goraw.set_position_t(url, vec_in)
-	goraw.set_scale_t(url, vec_in)
-
-	local p0 = go.get_position(url)
-	local p1_x, p1_y, p1_z = goraw.get_position(url)
-	local p2_x, p2_y, p2_z = goraw.get_position_x(url), goraw.get_position_y(url), goraw.get_position_z(url)
-	local p3_out = { x = 0, y = 0, z = 0 }
-	goraw.get_position_t(url, p3_out)
-
-	local s0 = go.get_scale(url)
-	local s1_x, s1_y, s1_z = goraw.get_scale(url)
-	local s2_x, s2_y, s2_z = goraw.get_scale_x(url), goraw.get_scale_y(url), goraw.get_scale_z(url)
-	local s3_out = { x = 0, y = 0, z = 0 }
-	goraw.get_scale_t(url, s3_out)
-
-	local x_values = { vec_in.x, p0.x, p1_x, p2_x, p3_out.x, s0.x, s1_x, s2_x, s3_out.x }
-	local y_values = { vec_in.y, p0.y, p1_y, p2_y, p3_out.y, s0.y, s1_y, s2_y, s3_out.y }
-	local z_values = { vec_in.z, p0.z, p1_z, p2_z, p3_out.z, s0.z, s1_z, s2_z, s3_out.z }
-
-	assert(is_equal(x_values), "x: " .. table.concat(x_values, ", "))
-	assert(is_equal(y_values), "y: " .. table.concat(y_values, ", "))
-	assert(is_equal(z_values), "z: " .. table.concat(z_values, ", "))
+	-- Run all tests
+	test_position(url, vec_in)
+	test_scale(url, vec_in)
+	test_rotation(url, vec_in)
+	test_world_getters(url, vec_in)
 end

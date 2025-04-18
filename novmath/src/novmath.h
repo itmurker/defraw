@@ -1,10 +1,10 @@
 // https://github.com/Lerg/extension-directories/blob/f1e8388fff484e588d36c1ce4e2d22663e2c676d/directories/src/extension.h#L1-L28
 
-#ifndef DEFRAW_EXTENSION_H
-#define DEFRAW_EXTENSION_H
+#ifndef NOVMATH_EXTENSION_H
+#define NOVMATH_EXTENSION_H
 
 // The name of the extension affects C++/ObjC exported symbols, Lua module name and Java package name.
-#define EXTENSION_NAME defraw
+#define EXTENSION_NAME novmath
 
 // Convert extension name to C const string.
 #define STRINGIFY(s) #s
@@ -23,4 +23,4 @@
 
 #define DECLARE_DEFOLD_EXTENSION DM_DECLARE_EXTENSION(EXTENSION_NAME, EXTENSION_NAME_STRING, APP_INITIALIZE, APP_FINALIZE, INITIALIZE, UPDATE, 0, FINALIZE)
 
-#endif
+#endif // NOVMATH_EXTENSION_H

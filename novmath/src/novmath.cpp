@@ -1,6 +1,6 @@
-#include "defraw.h"
-#include "go_ext.h"
 #include <dmsdk/sdk.h>
+#include "novmath.h"
+#include "novmath_go.h"
 
 static const luaL_reg go_functions[] = {
 

@@ -1,5 +1,5 @@
-#ifndef GO_EXT
-#define GO_EXT
+#ifndef NOVMATH_GO_H
+#define NOVMATH_GO_H
 
 #include <dmsdk/sdk.h>
 
@@ -69,4 +69,4 @@ int GO_GetWorldEulerX(lua_State *L);
 int GO_GetWorldEulerY(lua_State *L);
 int GO_GetWorldEulerZ(lua_State *L);
 
-#endif
+#endif // NOVMATH_GO_H

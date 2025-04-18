@@ -1,6 +1,6 @@
 #include <dmsdk/sdk.h>
-#include "dm_vmath_extern.h"
 #include <dmsdk/gui/gui.h>
+#include "external/dm_vmath.h"
 
 static inline dmVMath::Vector3
 CheckV3R(lua_State *L, int index)

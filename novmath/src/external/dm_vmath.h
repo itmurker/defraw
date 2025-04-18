@@ -1,7 +1,7 @@
-// dm_vmath_extern.h
+// dm_vmath.h
 
-#ifndef DM_VMATH_EXTERN_H
-#define DM_VMATH_EXTERN_H
+#ifndef DM_VMATH_H
+#define DM_VMATH_H
 
 #include <dmsdk/sdk.h>
 
@@ -12,4 +12,4 @@ namespace dmVMath
     Quat EulerToQuat(Vector3 xyz);
 }
 
-#endif // DM_VMATH_EXTERN_H
+#endif // DM_VMATH_H

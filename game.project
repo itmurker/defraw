@@ -16,8 +16,8 @@ input_method = HiddenInputField
 scale_mode = stretch
 
 [project]
-title = defraw
+title = novmath
 
 [library]
-include_dirs = defraw
+include_dirs = novmath
 
