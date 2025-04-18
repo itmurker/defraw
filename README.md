@@ -60,8 +60,9 @@ The extension includes Lua type annotations for better IDE support and type chec
 
 ## Installation
 
-1. Add NOVMATH as a dependency in your `game.project` file
-2. Import the extension in your code using `require "novmath"`
+```bash
+https://github.com/itmurker/novmath/archive/refs/tags/0.1.zip
+```
 
 ## License
 
