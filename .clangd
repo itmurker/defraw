@@ -1,0 +1,4 @@
+CompileFlags:
+  Add:
+    - -I/Users/alexeyshnigir/Documents/headers/defoldsdk/1.11.0/include
+    - -I/Users/alexeyshnigir/Documents/headers/defoldsdk/1.11.0/sdk/include
