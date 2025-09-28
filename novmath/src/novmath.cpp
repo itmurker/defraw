@@ -1,6 +1,6 @@
-#include <dmsdk/sdk.h>
 #include "novmath.h"
 #include "novmath_go.h"
+#include <dmsdk/sdk.h>
 
 static const luaL_reg go_functions[] = {
 
@@ -72,32 +72,27 @@ static const luaL_reg go_functions[] = {
 
     {0, 0}};
 
-dmExtension::Result APP_INITIALIZE(dmExtension::AppParams *params)
-{
-    return dmExtension::RESULT_OK;
+dmExtension::Result APP_INITIALIZE(dmExtension::AppParams *params) {
+  return dmExtension::RESULT_OK;
 }
 
-dmExtension::Result APP_FINALIZE(dmExtension::AppParams *params)
-{
-    return dmExtension::RESULT_OK;
+dmExtension::Result APP_FINALIZE(dmExtension::AppParams *params) {
+  return dmExtension::RESULT_OK;
 }
 
-dmExtension::Result INITIALIZE(dmExtension::Params *params)
-{
-    luaL_register(params->m_L, "go", go_functions);
-    lua_pop(params->m_L, 1);
-    dmLogInfo("Registered '%s' Extension", EXTENSION_NAME_STRING);
-    return dmExtension::RESULT_OK;
+dmExtension::Result INITIALIZE(dmExtension::Params *params) {
+  luaL_register(params->m_L, "go", go_functions);
+  lua_pop(params->m_L, 1);
+  dmLogInfo("Registered '%s' Extension", EXTENSION_NAME_STRING);
+  return dmExtension::RESULT_OK;
 }
 
-dmExtension::Result UPDATE(dmExtension::Params *params)
-{
-    return dmExtension::RESULT_OK;
+dmExtension::Result UPDATE(dmExtension::Params *params) {
+  return dmExtension::RESULT_OK;
 }
 
-dmExtension::Result FINALIZE(dmExtension::Params *params)
-{
-    return dmExtension::RESULT_OK;
+dmExtension::Result FINALIZE(dmExtension::Params *params) {
+  return dmExtension::RESULT_OK;
 }
 
 DECLARE_DEFOLD_EXTENSION
